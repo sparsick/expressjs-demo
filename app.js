@@ -4,6 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var winston = require("./utils/logger");
+const promBundle = require("express-prom-bundle");
+// Add the options to the prometheus middleware most option are for http_request_duration_seconds histogram metric
+const metricsMiddleware = promBundle({
+  includeMethod: true,
+  includePath: true,
+  includeStatusCode: true,
+  includeUp: true,
+  customLabels: {project_name: 'hello_world', project_type: 'test_metrics_labels'},
+  promClient: {
+    collectDefaultMetrics: {
+    }
+  }
+});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(metricsMiddleware);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
