@@ -54,8 +54,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
+expressjs:
+  mongoDBUri: mongodb://mongo:27017/expressjs-demo
+  env: minikube
 
-tolerations: []
-
-affinity: {}

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "expressjs-demo.fullname" . }}
+data:
+  MONGODB_URI: {{ .Values.expressjs.mongoDBUri }}
+  ENV: {{ .Values.expressjs.env }}
+  
